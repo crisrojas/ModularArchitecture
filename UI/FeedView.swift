@@ -7,11 +7,10 @@
 
 import SwiftUI
 
-public struct FeedVO: Identifiable {
+public struct Feed: Identifiable {
     public let id: UUID
     public init(id: UUID) { self.id = id }
 }
-public typealias FeedVOs = [FeedVO]
 
 public struct FeedView: View {
     
@@ -19,11 +18,11 @@ public struct FeedView: View {
     enum ViewState {
         case idle
         case loading
-        case success(FeedVOs)
+        case success([Feed])
         case error(String)
     }
     
-    public typealias Loader = () async -> FeedVOs
+    public typealias Loader = () async -> [Feed]
     public let load: Loader
     public init(loader l: @escaping Loader) {load = l}
     
@@ -42,7 +41,7 @@ public struct FeedView: View {
         }
     }
     
-    func feedList(_ vos: FeedVOs) -> some View {
+    func feedList(_ vos: [Feed]) -> some View {
         List(vos) { item in
             Text(item.id.description)
         }

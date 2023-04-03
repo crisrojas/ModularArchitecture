@@ -7,12 +7,11 @@
 
 import Foundation
 
-public struct FeedPO: Identifiable { public let id: UUID }
-public typealias FeedPOs = [FeedPO]
+public struct Feed: Identifiable { public let id: UUID }
 
-private var store = Array(0...20).map { _ in FeedPO(id: .init())}
+private var store = Array(0...20).map { _ in Feed(id: .init())}
 
 public final class DatabaseClient {
     public init() {}
-    public func readFeed() async -> FeedPOs {store}
+    public func readFeed() async -> [Feed] {store}
 }

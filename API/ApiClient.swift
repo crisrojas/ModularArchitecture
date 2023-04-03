@@ -7,12 +7,11 @@
 
 import Foundation
 
-public struct FeedSO: Identifiable { public let id: UUID }
-public typealias FeedSOs = [FeedSO]
+public struct Feed: Identifiable { public let id: UUID }
 
-private var store = Array(0...10).map { _ in FeedSO(id: .init())}
+private var store = Array(0...10).map { _ in Feed(id: .init())}
 
 public final class APIClient {
     public init() {}
-    public func fetchFeed() async -> FeedSOs {store}
+    public func fetchFeed() async -> [Feed] {store}
 }

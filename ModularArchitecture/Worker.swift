@@ -10,19 +10,28 @@ import Database
 import UI
 import Reachability
 
-
 func makeFeedLoader() -> FeedView.Loader {
+    #if DEBUG
+    makeDebugFeed
+    #else
     Reachability.isReachable
     ? fetchRemoteFeed
     : readLocalFeed
+    #endif
 }
 
-func readLocalFeed() async -> FeedVOs {
+func readLocalFeed() async -> [UI.Feed] {
     let localFeed = await DatabaseClient().readFeed()
-    return localFeed.map { FeedVO(id: $0.id) }
+    return localFeed.map { UI.Feed(id: $0.id) }
 }
 
-func fetchRemoteFeed() async -> FeedVOs {
+func fetchRemoteFeed() async -> [UI.Feed] {
     let remoteFeed = await APIClient().fetchFeed()
-    return remoteFeed.map { FeedVO(id: $0.id) }
+    return remoteFeed.map { UI.Feed(id: $0.id) }
 }
+
+#if DEBUG
+func makeDebugFeed() async -> [UI.Feed] {
+    Array(0...3).map { _ in UI.Feed(id: .init()) }
+}
+#endif
